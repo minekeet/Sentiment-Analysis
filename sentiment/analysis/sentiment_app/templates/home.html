@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gule AI Analysis</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Body with animated gradient background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #6c63ff, #ff6b6b, #4ecdc4, #6c63ff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        /* Gradient background animation */
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Container styling */
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Fade-in animation for container */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Title styling */
+        h1 {
+            color: #343a40; /* Dark gray for title */
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+
+        /* Subtitle styling */
+        h2 {
+            color: #343a40;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+        /* Form group styling */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background-color: #6c63ff; /* Violet color */
+            border-color: #6c63ff;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #524ad4; /* Darker violet on hover */
+            border-color: #524ad4;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn-primary:focus, .btn-primary:active {
+            box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.5) !important;
+        }
+
+        /* Form control styling */
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #6c63ff;
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+        }
+
+        /* Spacing utilities */
+        .mt-3 {
+            margin-top: 3.5rem;
+        }
+
+        .mt-5 {
+            margin-top: 6rem;
+        }
+
+        /* Label styling */
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        /* File upload styling */
+        .upload-label {
+            display: block;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px dashed #ced4da;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .upload-label:hover {
+            background: #e9ecef;
+            border-color: #6c63ff;
+        }
+
+        .upload-label input[type="file"] {
+            display: none;
+        }
+
+        /* Text Analysis Section Background */
+        .text-analysis-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* PDF Analysis Section Background */
+        .pdf-analysis-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+        }
+         /* Voice Analysis Section Background */
+        .voice-analysis-section {
+            background: linear-gradient(135deg, #ccf2f4 0%, #f8f0e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top:30px;
+        }
+         /* Audio recorder container */
+        .audio-recorder {
+            background: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            display: none; /* Initially hidden */
+            margin-top: 10px;
+        }
+
+        /* Record button */
+        .record-btn {
+            background: #dc3545; /* Red */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .record-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+         .stop-btn {
+            background: #007bff; /* Red */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sentiment Analysis</h1>
+        <div class="text-analysis-section">
+            <h2>Analyze Text</h2>
+            <form method="post" action="{% url 'analyze_text' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                   {{ text_form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze Text</button>
+            </form>
+        </div>
+        <div class="pdf-analysis-section mt-5">
+            <h2>Analyze PDF</h2>
+            <form method="post" action="{% url 'analyze_pdf' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ pdf_form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze PDF</button>
+            </form>
+        </div>
+        <div class="voice-analysis-section mt-5">
+            <h2>Analyze Voice</h2>
+            <button class="btn btn-primary" id="startRecording">Start Recording</button>
+                <div class="audio-recorder">
+                    <p>Recording...</p>
+                   <button class="stop-btn" id="stopRecording">Stop Recording</button>
+                   <form method="post" action="{% url 'analyze_voice' %}"  enctype="multipart/form-data" id="audioForm">
+                    {% csrf_token %}
+                    <input type="file" name="audio_file" id="audioInput" accept="audio/*" required>
+                    <button type="submit" class="btn btn-primary">Analyze Voice</button>
+                </form>
+                </div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script>
+       document.addEventListener('DOMContentLoaded', function() {
+    const startRecordingButton = document.getElementById('startRecording');
+    const audioRecorderDiv = document.querySelector('.audio-recorder');
+    const audioInput = document.getElementById('audioInput');
+    const audioForm = document.getElementById('audioForm');
+    const stopRecordingButton = document.getElementById('stopRecording');
+    let mediaRecorder;
+    let recordedChunks = [];
+
+    startRecordingButton.addEventListener('click', async function() {
+         startRecordingButton.disabled = true;
+            stopRecordingButton.style.display = 'inline-block';
+         audioRecorderDiv.style.display = 'block';
+        recordedChunks = [];
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = event => {
+            if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+            }
+         };
+
+            mediaRecorder.onstop = () => {
+                const recordedBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+                const audioFile = new File([recordedBlob], 'recorded_audio.webm',{type: 'audio/webm'});
+
+
+                // Create a new DataTransfer object
+                 const dataTransfer = new DataTransfer();
+                // Add the file to the DataTransfer object
+                dataTransfer.items.add(audioFile);
+                // Set the files property of the input
+                audioInput.files = dataTransfer.files;
+
+            }
+
+             mediaRecorder.start();
+    });
+     stopRecordingButton.addEventListener('click', () => {
+        startRecordingButton.disabled = false;
+            stopRecordingButton.style.display = 'none';
+          audioRecorderDiv.style.display = 'none';
+         mediaRecorder.stop();
+
+    });
+
+    audioForm.addEventListener('submit', function(e) {
+        if (audioInput.files.length === 0) {
+            e.preventDefault();
+             alert('Please record audio before submitting.');
+            return false
+        }
+
+    });
+
+});
+    </script>
+</body>
+</html>

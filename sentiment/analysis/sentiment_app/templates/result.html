@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Body with animated gradient background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #6c63ff, #ff6b6b, #4ecdc4, #6c63ff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        /* Gradient background animation */
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Container styling */
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Fade-in animation for container */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Title styling */
+        h1 {
+            color: #343a40; /* Dark gray for title */
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+
+        /* Chart container styling */
+        #chartContainer {
+            width: 400px;
+            height: 400px;
+            margin: 20px auto; /* Center the chart */
+        }
+
+        /* Result text styling */
+        .text-center p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #343a40; /* Dark gray for text */
+        }
+
+        /* Button styling */
+        .btn-secondary {
+            background-color: #6c63ff; /* Violet color */
+            border-color: #6c63ff;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #524ad4; /* Darker violet on hover */
+            border-color: #524ad4;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Sentiment Analysis Result</h1>
+        <div id="chartContainer">
+            <canvas id="sentimentChart"></canvas>
+        </div>
+
+        <div class="text-center">
+            <p><strong>Positive:</strong> {{ pos|floatformat:2 }}%</p>
+            <p><strong>Negative:</strong> {{ neg|floatformat:2 }}%</p>
+            <p><strong>Neutral:</strong> {{ neu|floatformat:2 }}%</p>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'home' %}" class="btn btn-secondary">Go Back</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('sentimentChart').getContext('2d');
+            var positive = parseFloat('{{ pos|floatformat:2 }}');
+            var negative = parseFloat('{{ neg|floatformat:2 }}');
+            var neutral = parseFloat('{{ neu|floatformat:2 }}');
+
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Positive', 'Negative', 'Neutral'],
+                    datasets: [{
+                        data: [positive, negative, neutral],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)', // Greenish
+                            'rgba(255, 99, 132, 0.7)', // Reddish
+                            'rgba(255, 206, 86, 0.7)',  // Yellowish
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)', // Greenish
+                            'rgba(255, 99, 132, 1)', // Reddish
+                            'rgba(255, 206, 86, 1)',  // Yellowish
+                        ],
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom', // Place the legend at the bottom of the chart
+                        },
+                        title: {
+                            display: false,
+                            text: 'Sentiment Analysis' // Title of the Chart
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
